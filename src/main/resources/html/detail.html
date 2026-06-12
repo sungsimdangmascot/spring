@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+
+<nav class="nav">
+   <span><a href="./main.html" class="nav-logo">독서로그</a></span>
+    <div class="nav-right">
+      <span><span class="nav-user">홍길동</span> 님 환영합니다</span>
+      <button class="nav-btn" onclick="location.href='list.html'"  type="button">로그아웃</button>
+      <button class="nav-write" onclick="location.href='write.html' ">게시글 쓰기</button>
+    </div>
+  </nav>
+
+<div class="container">
+
+    <div class="board-detail">
+        <h2>라면 맛있게 끓이는 법</h2>
+
+        <div class="board-meta">
+            <span>작성자: <strong>hong</strong></span>
+            <span>날짜: 2026-06-11 16:04:07</span>
+            <span>조회수: 39</span>
+        </div>
+
+        <div class="board-content">맛있게 끓인다</div>
+
+        <div class="board-actions">
+            <button class="btn-btn-secondary"  onclick="location.href='update.html'"  type="button">수정</button>
+            <button class="btn-btn-danger"
+                    onclick="if(confirm('정말 삭제하시겠습니까?')) alert('삭제 처리')">삭제</button>
+        </div>
+
+        <a href="01_list.html" class="btn">목록으로</a>
+    </div>
+
+    <div class="comment-section">
+        <h3>댓글 <span id="commentCount">5</span>개</h3>
+
+
+        <div id="commentList">
+
+            <div class="comment-item" id="comment-1">
+                <span class="comment-author">홍길동</span>
+                <span class="comment-content">좋은 내용 감사합니다</span>
+                <span class="comment-date">2026-06-11 14:06:52</span>
+                <button class="btn-btn-sm-btn-danger"
+                        onclick="if(confirm('댓글을 삭제하시겠습니까?')) this.closest('.comment-item').remove()">삭제</button>
+            </div>
+
+            <div class="comment-item" id="comment-2">
+                <span class="comment-author">고길동</span>
+                <span class="comment-content">합격입니다</span>
+                <span class="comment-date">2026-06-11 08:54:03</span>
+            </div>
+
+            <div class="comment-item" id="comment-3">
+                <span class="comment-author">신짱구</span>
+                <span class="comment-content">유익하네요</span>
+                <span class="comment-date">2026-06-05 18:32:55</span>
+            </div>
+             <div class="comment-item" id="comment-4">
+                <span class="comment-author">신짱아</span>
+                <span class="comment-content">감사합니다</span>
+                <span class="comment-date">2026-02-03 10:12:05</span>
+            </div>
+            <div class="comment-item" id="comment-4">
+                <span class="comment-author">신짱아</span>
+                <span class="comment-content">감사합니다</span>
+                <span class="comment-date">2026-02-03 10:12:05</span>
+            </div>
+             <div class="comment-item" id="comment-5">
+                <span class="comment-author">둘리</span>
+                <span class="comment-content">좋아요</span>
+                <span class="comment-date">2026-01-25 23:52:07</span>
+            </div>
+        </div>
+        <div class="comment-form">
+            <textarea id="commentContent" rows="3"
+                      placeholder="댓글을 입력하세요 (최대 500자)"
+                      maxlength="500"></textarea>
+            <button class="btn-btn-primary" onclick="alert('댓글 등록 (AJAX)')">댓글 등록</button>
+        </div>
+    
+    </div>
+
+</div>
+
+ <footer>
+      <div class="sub">
+        <div class="sub-sub1">
+          <p class="sub-title">독서LOG</p>
+          <br />
+          <p class="sub-sub">읽고, 기록하고, 성장하세요.</p>
+        </div>
+
+        <div class="sub-category">
+          <div class="small-title">계정</div>
+          <br>
+          <!-- <a href="">로그인</a> -->
+          <a href="login.html">로그인</a>
+          <a href="join.html">회원가입</a>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>
+</body>
+</html>

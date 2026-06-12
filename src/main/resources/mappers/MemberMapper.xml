@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.booklog.mapper.MemberMapper">
+
+<insert id="insertMember" parameterType="com.example.booklog.dto.MemberDTO"> 
+INSERT INTO MEMBER(MEMBER_LOGINID, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PW, MEMBER_TEL) 
+VALUES(#{memberLoginId}, #{memberName}, #{memberEmail}, #{memberPw}, #{memberTel}) </insert>
+
+<!--<select id="countByLoginId" resultType="int"> 
+SELECT COUNT(*) FROM MEMBER WHERE MEMBER_LOGINID = #{loginId} </select>-->
+
+<!--<select id="selectByLoginIdAndPw" resultType="com.example.booklog.dto.MemberDTO"> 
+SELECT MEMBER_ID, MEMBER_LOGINID, MEMBER_NAME, MEMBER_EMAIL, MEMBER_TEL FROM MEMBER 
+WHERE MEMBER_LOGINID = #{loginId} AND MEMBER_PW = #{pw} </select>-->
+</mapper>
