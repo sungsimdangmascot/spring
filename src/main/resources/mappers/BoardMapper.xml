@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.booklog.mapper.BoardMapper">
+
+   <select id="selectAll" resultType="com.example.booklog.dto.BoardDTO">      
+   SELECT b.BOARD_ID,
+         b.BOARD_TITLE,
+         b.BOARD_VIEWS,
+         b.BOARD_REGDATE,
+         b.MEMBER_ID,
+         m.MEMBER_LOGINID
+   FROM BOARD b
+   JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
+   <where>
+      <!-- 
+         test="keyword != null and keyword != ''"
+         -> keyword가 null이 아니고 빈 문자열도 아닐때 때만 이 조건 추가
+      -->
+      <if test="keyword != null and keyword != ''">
+         (b.BOARD_TITLE LIKE CONCAT('%', #{keyword}, '%')
+         OR m.MEMBER_LOGINID LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+   </where>
+   ORDER BY b.BOARD_ID DESC
+   LIMIT #{size} OFFSET #{offset}
+   </select>
+
+<select id="selectCount" resultType="int">
+      SELECT COUNT(*)
+      FROM BOARD b
+      JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
+      <where>
+      <!-- 
+         test="keyword != null and keyword != ''"
+         -> keyword가 null이 아니고 빈 문자열도 아닐때 때만 이 조건 추가
+      -->
+      <if test="keyword != null and keyword != ''">
+         (b.BOARD_TITLE LIKE CONCAT('%', #{keyword}, '%')
+         OR m.MEMBER_LOGINID LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+   </where>
+   </select>
+   
+   
+    <!--
+      [게시글 상세 조회] 게시글 1개를 join으로 조회
+   -->
+   <select id="selectById" resultType="com.example.booklog.dto.BoardDTO">
+      SELECT b.BOARD_ID,
+            b.BOARD_TITLE,
+            b.BOARD_CONTENT,
+            b.BOARD_VIEWS,
+            b.BOARD_REGDATE,
+            b.MEMBER_ID,
+            m.MEMBER_LOGINID
+      FROM BOARD b 
+      JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
+      WHERE b.BOARD_ID = #{boardId}
+   </select>
+   
+   
+      <!-- 
+      [조회수 증가] 상세보기 요청 시 해당 게시글 BOARD_HIT 값을 1 올림
+   -->
+   <update id="updateHit">
+      UPDATE BOARD
+         SET BOARD_VIEWS = BOARD_VIEWS + 1
+      WHERE BOARD_ID = #{boardId}
+   </update>
+   
+   <!-- 
+      [게시글 등록]
+      board_hit 은 기본값 0, board_date는 기본값 NOW()이므로 insert 생략
+   -->
+   
+    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
+      INSERT INTO BOARD (BOARD_TITLE, BOARD_CONTENT, MEMBER_ID, BOARD_AUTHOR)
+      VALUES(#{boardTitle}, #{boardContent}, #{memberId}, #{boardAuthor})
+   </insert>
+
+	<!--
+      [게시글 수정] 제목과 내용만 변경
+   -->
+   <update id="updateBoard">
+   UPDATE BOARD
+      SET BOARD_TITLE = #{boardTitle},
+         BOARD_CONTENT = #{boardContent}
+      WHERE BOARD_ID = #{boardId}
+   </update>
+   
+   <!-- [게시글 삭제] -->
+   <delete id="deleteBoard">
+      DELETE FROM BOARD
+         WHERE BOARD_ID = #{boardId}
+   </delete>
+
+
+</mapper>
+ 

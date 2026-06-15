@@ -10,10 +10,10 @@ public interface MemberMapper {
 
 	void insertMember(MemberDTO memberDTO);
 
-//	int countByLoginId(@Param("loginId") String loginId);
+	int countByLoginId(@Param("loginId") String loginId);
 //
-//	MemberDTO selectByLoginIdAndPwd(@Param("loginId") String loginId,
-//								   @Param("pw") String pw);
+	MemberDTO selectByLoginIdAndPwd(@Param("loginId") String loginId,
+								   @Param("pw") String pw);
 }
 
 

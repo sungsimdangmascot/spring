@@ -15,7 +15,6 @@ public class MemberDTO {
 	private String memberPw;
 	private String memberTel;
 	
-	
 }
 
 

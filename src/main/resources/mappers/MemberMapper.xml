@@ -9,10 +9,10 @@
 INSERT INTO MEMBER(MEMBER_LOGINID, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PW, MEMBER_TEL) 
 VALUES(#{memberLoginId}, #{memberName}, #{memberEmail}, #{memberPw}, #{memberTel}) </insert>
 
-<!--<select id="countByLoginId" resultType="int"> 
-SELECT COUNT(*) FROM MEMBER WHERE MEMBER_LOGINID = #{loginId} </select>-->
+<select id="countByLoginId" resultType="int"> 
+SELECT COUNT(*) FROM MEMBER WHERE MEMBER_LOGINID = #{loginId} </select>
 
-<!--<select id="selectByLoginIdAndPw" resultType="com.example.booklog.dto.MemberDTO"> 
+<select id="selectByLoginIdAndPwd" resultType="com.example.booklog.dto.MemberDTO"> 
 SELECT MEMBER_ID, MEMBER_LOGINID, MEMBER_NAME, MEMBER_EMAIL, MEMBER_TEL FROM MEMBER 
-WHERE MEMBER_LOGINID = #{loginId} AND MEMBER_PW = #{pw} </select>-->
+WHERE MEMBER_LOGINID = #{loginId} AND MEMBER_PW = #{pw} </select>
 </mapper>

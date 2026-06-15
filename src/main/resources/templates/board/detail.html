@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+
+<body>
+
+	<nav class="nav">
+		<span><a href="./main.html" class="nav-logo">독서로그</a></span>
+		<div class="nav-right">
+			<span><span class="nav-user">홍길동</span> 님 환영합니다</span>
+			<button class="nav-btn" th:onclick="location.href='list.html'" type="button">로그아웃</button>
+			<button class="nav-write" th:onclick="location.href='write.html' ">게시글 쓰기</button>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="board-detail">
+			<h2 th:text="${board.boardTitle}">제목</h2>
+
+			<div class="board-meta">
+				<span>작성자: <strong th:text="${board.memberLoginId}">아이디</strong></span>
+				<span>날짜: <span th:text="${board.boardRegDate}">날짜</span></span>
+				<span>조회수: <span th:text="${board.boardViews}">0</span></span>
+			</div>
+
+			<div class="board-content" th:text="${board.boardContent}">내용</div>
+
+			<div class="board-actions" 
+			th:if="${session.loginMember != null and session.loginMember.memberId == board.memberId}">
+			<button class="btn-btn-secondary" type="button" 
+			th:onclick="|location.href='@{/board/update/{id}(id=${board.boardId})}'|">수정</button>
+			
+
+				
+				
+			<!--	<a th:href="@{/board/update/{id}(id=${board.boardId})}" class="btn-btn-secondary">수정</a>-->
+				
+				<!-- 삭제할 게시판 ID를 POST 방식으로 전달하여 DB에서 해당 게시글 삭제 -->
+				<form th:action="@{/board/delete/{id}(id=${board.boardId})}" method="post" style="display:inline"
+					onsubmit="return (confirm('정말 삭제하시겠습니까?'))">
+					<button class="btn-btn-danger" type="submit">삭제</button>
+				</form>
+			</div>
+
+			<a th:href="@{/board/list}" class="btn">목록으로</a>
+		</div>
+
+		<div class="comment-section">
+			<h3>댓글 <span id="commentCount">0</span>개</h3>
+
+
+			<div id="commentList">
+				<!-- th:each : commetList의 각 댓글을 반복 출력 -->
+				<div class="comment-item" th:each="comment : ${commentList}" th:id="'comment-'+ ${comment.commentId}">
+					<span class="comment-author" th:text="${comment.memberLoginId}">작성자</span>
+					<span class="comment-content" th:text="${comment.commentContent}">내용</span>
+					<span class="comment-regdate" th:text="${comment.commentRegDate}">날짜</span>
+					<button class="btn-btn-sm btn-danger"
+						th:if="${loginMemberId != null and loginMemberId == comment.memberId}"
+						th:onclick="'deleteComment(' + ${comment.commentId} + ')'">삭제</button>
+				</div>
+			</div>
+
+
+		</div>
+		<!-- 댓글 작성 폼 — 로그인 상태에서만 표시 -->
+		<div th:if="${loginMemberId != null}">
+			<form class="comment-form" id="commentForm" onsubmit="return false">
+				<!-- hidden : Thymeleaf가 서버 데이터를 HTML에 삽입 -> js에서 읽기 가능 -->
+				<input type="hidden" id="boardId" th:value="${board.boardId}">
+				<input type="hidden" id="loginMemberId" th:value="${loginMemberId}">
+				<input type="hidden" id="loginMemberLoginId" th:value="${loginMemberLoginId}">
+				<textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요 (최대 500자)" maxlength="500"></textarea>
+				<button class="btn btn-primary" type="button" onclick="submitComment()">댓글 등록</button>
+			</form>
+		</div>
+
+
+		<!-- 비로그인 상태일 때 표시 (위 comment-form 대신) -->
+
+		<div th:unless="${session.loginMember != null}" class="login-required">
+			<a th:href="@{/member/login}">로그인</a> 후 댓글을 작성할 수 있습니다.
+		</div>
+
+	</div>
+
+	<footer>
+		<div class="sub">
+			<div class="sub-sub1">
+				<p class="sub-title">독서LOG</p>
+				<br />
+				<p class="sub-sub">읽고, 기록하고, 성장하세요.</p>
+			</div>
+
+			<div class="sub-category">
+				<div class="small-title">계정</div>
+				<br>
+				<!-- <a href="">로그인</a> -->
+				<a href="login.html">로그인</a>
+				<a href="join.html">회원가입</a>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>
+</body>
+
+</html>
