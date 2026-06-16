@@ -64,9 +64,9 @@ public class MemberController {
 	}
 	
 	
-//	@GetMapping("/logout")
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/board/list";
-//	}
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "board/main";
+	}
 }

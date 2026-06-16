@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.example.booklog.mapper.CommentMapper">
+    
+   
+   <select id="selectByBoardId" resultType="com.example.booklog.dto.CommentDTO">
+      SELECT c.COMMENT_ID,
+            c.COMMENT_CONTENT,
+            DATE_FORMAT(c.COMMENT_REGDATE, '%Y-%m-%d %H:%i:%s') AS COMMENT_REGDATE,
+            c.BOARD_ID,
+            c.MEMBER_ID,
+            m.MEMBER_LOGINID
+      FROM COMMENT c 
+         JOIN MEMBER m ON c.MEMBER_ID = m.MEMBER_ID 
+      WHERE c.BOARD_ID = #{boardId}
+      ORDER BY c.COMMENT_ID ASC
+   </select>
+   
+   
+   <insert id="insertComment"
+         parameterType="com.example.booklog.dto.CommentDTO"
+         useGeneratedKeys="true"
+         keyProperty="commentId">
+      INSERT INTO COMMENT(COMMENT_CONTENT, BOARD_ID, MEMBER_ID)
+      VALUES(#{commentContent}, #{boardId}, #{memberId})
+   </insert>
+   
+   
+   <delete id="deleteComment">
+      DELETE FROM COMMENT 
+         WHERE COMMENT_ID = #{commentId}
+   </delete>
+
+
+</mapper>

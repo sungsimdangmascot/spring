@@ -13,7 +13,7 @@
 	<nav class="nav">
 		<span><a href="./main.html" class="nav-logo">독서로그</a></span>
 		<div class="nav-right">
-			<span><span class="nav-user">홍길동</span> 님 환영합니다</span>
+			<span><span class="nav-user"></span> 님 환영합니다</span>
 			<button class="nav-btn" th:onclick="location.href='list.html'" type="button">로그아웃</button>
 			<button class="nav-write" th:onclick="location.href='write.html' ">게시글 쓰기</button>
 		</div>
@@ -36,9 +36,6 @@
 			th:if="${session.loginMember != null and session.loginMember.memberId == board.memberId}">
 			<button class="btn-btn-secondary" type="button" 
 			th:onclick="|location.href='@{/board/update/{id}(id=${board.boardId})}'|">수정</button>
-			
-
-				
 				
 			<!--	<a th:href="@{/board/update/{id}(id=${board.boardId})}" class="btn-btn-secondary">수정</a>-->
 				
@@ -48,6 +45,8 @@
 					<button class="btn-btn-danger" type="submit">삭제</button>
 				</form>
 			</div>
+			
+			
 
 			<a th:href="@{/board/list}" class="btn">목록으로</a>
 		</div>
@@ -62,7 +61,7 @@
 					<span class="comment-author" th:text="${comment.memberLoginId}">작성자</span>
 					<span class="comment-content" th:text="${comment.commentContent}">내용</span>
 					<span class="comment-regdate" th:text="${comment.commentRegDate}">날짜</span>
-					<button class="btn-btn-sm btn-danger"
+					<button class="btn-btn-sm-btn-danger"
 						th:if="${loginMemberId != null and loginMemberId == comment.memberId}"
 						th:onclick="'deleteComment(' + ${comment.commentId} + ')'">삭제</button>
 				</div>
@@ -73,17 +72,17 @@
 		<!-- 댓글 작성 폼 — 로그인 상태에서만 표시 -->
 		<div th:if="${loginMemberId != null}">
 			<form class="comment-form" id="commentForm" onsubmit="return false">
-				<!-- hidden : Thymeleaf가 서버 데이터를 HTML에 삽입 -> js에서 읽기 가능 -->
+
 				<input type="hidden" id="boardId" th:value="${board.boardId}">
 				<input type="hidden" id="loginMemberId" th:value="${loginMemberId}">
 				<input type="hidden" id="loginMemberLoginId" th:value="${loginMemberLoginId}">
 				<textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요 (최대 500자)" maxlength="500"></textarea>
-				<button class="btn btn-primary" type="button" onclick="submitComment()">댓글 등록</button>
+				<button class="btn-btn-primary" type="button" onclick="submitComment()">댓글 등록</button>
 			</form>
 		</div>
 
 
-		<!-- 비로그인 상태일 때 표시 (위 comment-form 대신) -->
+		<!-- 비로그인 상태일 때 표시 -->
 
 		<div th:unless="${session.loginMember != null}" class="login-required">
 			<a th:href="@{/member/login}">로그인</a> 후 댓글을 작성할 수 있습니다.
@@ -108,6 +107,7 @@
 			</div>
 		</div>
 	</footer>
+	<script th:src="@{/js/comment.js}"></script>
 </body>
 
 </html>

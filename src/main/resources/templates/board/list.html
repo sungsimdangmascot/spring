@@ -12,7 +12,7 @@
 	<span><a href="./main.html" class="nav-logo">독서로그</a></span>
 	<div class="nav-right">
 		<span><span class="nav-user"></span> 님 환영합니다</span>
-		<button class="nav-btn" th:onclick="location.href='main.html'" type="button">로그아웃</button>
+		<button class="nav-btn" th:onclick="|location.href='@{/board/list}'| " type="button">로그아웃</button>
 		<button class="nav-write" th:onclick="|location.href='@{/board/write}'| " type="button">게시글 쓰기</button>
 	</div>
 </nav>

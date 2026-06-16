@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.booklog.dto.BoardDTO;
+import com.example.booklog.dto.CommentDTO;
 import com.example.booklog.dto.MemberDTO;
 import com.example.booklog.service.BoardService;
+import com.example.booklog.service.CommentService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,7 +25,10 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-
+	
+	@Autowired
+	private CommentService commentService;
+	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
@@ -88,10 +93,17 @@ public class BoardController {
 		BoardDTO board = boardService.getBoardId(boardId);
 		model.addAttribute("board", board);
 
-		MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMemberId");
-		if (loginMember != null) {
-
+		List<CommentDTO> commentList = commentService.getCommentsByBoardId(boardId);
+		model.addAttribute("commentList", commentList);
+		
+//		로그인 회원 정보
+		MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+		if(loginMember != null) {
+			model.addAttribute("loginMemberId", loginMember.getMemberId());
+			model.addAttribute("loginMemberLoginId", loginMember.getMemberLoginId());
 		}
+		
+		
 		return "board/detail";
 	}
 
