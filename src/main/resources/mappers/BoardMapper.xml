@@ -6,12 +6,14 @@
 <mapper namespace="com.example.booklog.mapper.BoardMapper">
 
    <select id="selectAll" resultType="com.example.booklog.dto.BoardDTO">      
-   SELECT b.BOARD_ID,
-         b.BOARD_TITLE,
-         b.BOARD_VIEWS,
-         b.BOARD_REGDATE,
-         b.MEMBER_ID,
-         m.MEMBER_LOGINID
+   SELECT b.BOARD_ID AS boardId,
+         b.BOARD_TITLE AS boardTitle,
+         b.BOARD_AUTHOR AS boardAuthor,
+         b.BOARD_PUBLISHER AS boardPublisher,
+         b.BOARD_VIEWS AS boardViews,
+         DATE_FORMAT(b.BOARD_REGDATE, '%Y-%m-%d') AS boardRegDate,
+         b.MEMBER_ID AS memberId,
+         m.MEMBER_LOGINID AS memberLoginId
    FROM BOARD b
    JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
    <where>
@@ -21,6 +23,9 @@
       -->
       <if test="keyword != null and keyword != ''">
          (b.BOARD_TITLE LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_AUTHOR LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_PUBLISHER LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_CONTENT LIKE CONCAT('%', #{keyword}, '%')
          OR m.MEMBER_LOGINID LIKE CONCAT('%', #{keyword}, '%'))
       </if>
    </where>
@@ -39,6 +44,9 @@
       -->
       <if test="keyword != null and keyword != ''">
          (b.BOARD_TITLE LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_AUTHOR LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_PUBLISHER LIKE CONCAT('%', #{keyword}, '%')
+         OR b.BOARD_CONTENT LIKE CONCAT('%', #{keyword}, '%')
          OR m.MEMBER_LOGINID LIKE CONCAT('%', #{keyword}, '%'))
       </if>
    </where>
@@ -49,13 +57,15 @@
       [게시글 상세 조회] 게시글 1개를 join으로 조회
    -->
    <select id="selectById" resultType="com.example.booklog.dto.BoardDTO">
-      SELECT b.BOARD_ID,
-            b.BOARD_TITLE,
-            b.BOARD_CONTENT,
-            b.BOARD_VIEWS,
-            b.BOARD_REGDATE,
-            b.MEMBER_ID,
-            m.MEMBER_LOGINID
+      SELECT b.BOARD_ID AS boardId,
+            b.BOARD_TITLE AS boardTitle,
+            b.BOARD_AUTHOR AS boardAuthor,
+            b.BOARD_PUBLISHER AS boardPublisher,
+            b.BOARD_CONTENT AS boardContent,
+            b.BOARD_VIEWS AS boardViews,
+            DATE_FORMAT(b.BOARD_REGDATE, '%Y-%m-%d %H:%i:%s') AS boardRegDate,
+            b.MEMBER_ID AS memberId,
+            m.MEMBER_LOGINID AS memberLoginId
       FROM BOARD b 
       JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
       WHERE b.BOARD_ID = #{boardId}
@@ -77,8 +87,8 @@
    -->
    
     <insert id="insertBoard" useGeneratedKeys="true" keyProperty="boardId">
-      INSERT INTO BOARD (BOARD_TITLE, BOARD_CONTENT, MEMBER_ID, BOARD_AUTHOR)
-      VALUES(#{boardTitle}, #{boardContent}, #{memberId}, #{boardAuthor})
+      INSERT INTO BOARD (BOARD_TITLE, BOARD_AUTHOR, BOARD_PUBLISHER, BOARD_CONTENT, MEMBER_ID)
+      VALUES(#{boardTitle}, #{boardAuthor}, #{boardPublisher}, #{boardContent}, #{memberId})
    </insert>
 
 	<!--
@@ -87,6 +97,8 @@
    <update id="updateBoard">
    UPDATE BOARD
       SET BOARD_TITLE = #{boardTitle},
+         BOARD_AUTHOR = #{boardAuthor},
+         BOARD_PUBLISHER = #{boardPublisher},
          BOARD_CONTENT = #{boardContent}
       WHERE BOARD_ID = #{boardId}
    </update>

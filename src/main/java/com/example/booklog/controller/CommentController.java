@@ -51,6 +51,7 @@ public class CommentController {
       
 //      작성자 아이디를 DTO에 추가
       commentDTO.setMemberLoginId(loginMember.getMemberLoginId());
+      commentDTO.setMemberId(loginMember.getMemberId());
       
 //      작성시간
 
@@ -73,14 +74,19 @@ public class CommentController {
       Map<String, Object> result = new HashMap<>();
       
       // 로그인 여부 확인
-      if(session.getAttribute("loginMember") == null) {
+      MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+      if(loginMember == null) {
          result.put("success", false);
          result.put("message", "로그인이 필요합니다.");
          return result;
       }
       
-      // DB에서 댓글 삭제
-      commentService.deleteComment(commentId);
+      boolean deleted = commentService.deleteComment(commentId, loginMember.getMemberId());
+      if(!deleted) {
+         result.put("success", false);
+         result.put("message", "삭제 권한이 없습니다.");
+         return result;
+      }
       
 //      성공 응답 반환
 

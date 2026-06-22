@@ -1,50 +1,60 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
- 
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>독서로그</title>
 	<link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
- 
-<body>
- 
 
-	<!--   <header th:replace="~{fragment/layout :: nav}"></header>   -->
+<nav class="nav">
+	<span><a th:href="@{/main}" class="nav-logo">독서로그</a></span>
+	<div class="nav-right">
+		<span th:if="${session.loginMember != null}">
+			<span class="nav-user" th:text="${session.loginMember.memberLoginId}">회원</span> 님 환영합니다
+		</span>
+		<button th:if="${session.loginMember == null}" class="nav-btn" th:onclick="|location.href='@{/member/login}'|"
+			type="button">로그인</button>
+		<button th:if="${session.loginMember != null}" class="nav-btn" th:onclick="|location.href='@{/member/logout}'|"
+			type="button">로그아웃</button>
+		<button class="nav-write" th:onclick="|location.href='@{/board/write}'|" type="button">게시글 쓰기</button>
+	</div>
+</nav>
+
+<body>
+
+
+	<!--<header th:replace="~{fragment/layout :: nav}"></header>-->
 
 	<main>
 		<div class="Board">
- 
+
 			<div class="container2">
 				<div class="Title">Book Log</div>
 				<div class="line"></div>
 				<div class="Board-Title2">독서로그</div>
 			</div>
- 
+
 			<p class="board-title">
 				읽은 책을 기록하고, 생각을 남기세요.<br />
 				<br />
 			</p>
 			<p class="board-title2">나만의 독서 이력을 쌓아갑니다.</p>
- 
+
+
+
+
 			<div class="category">
-				<button type="button"
-						th:onclick="|location.href='@{/board/write}'|"
-						class="category-main">
-					독후감 작성하기
-				</button>
-				<button type="button"
-						th:onclick="|location.href='@{/board/list}'|"
-						class="category-sub">
-					둘러보기
-				</button>
+				<button th:onclick="|location.href='@{/board/write}'|" class="category-main"> 독후감 작성하기 </button>
+				<button th:onclick="|location.href='@{/board/list}'|" class="category-sub"> 둘러보기 </button>
 			</div>
- 
+
+
 		</div>
 	</main>
- 
- 
+
+
 	<footer>
 		<div class="sub">
 			<div class="sub-sub1">
@@ -52,15 +62,17 @@
 				<br />
 				<p class="sub-sub">읽고, 기록하고, 성장하세요.</p>
 			</div>
- 
+
 			<div class="sub-category">
 				<div class="small-title">계정</div>
 				<br>
-				<a th:href="@{/member/login}">로그인</a>
-				<a th:href="@{/member/join}">회원가입</a>
+				<a th:if="${session.loginMember == null}" th:href="@{/member/login}">로그인</a>
+				<a th:if="${session.loginMember == null}" th:href="@{/member/join}">회원가입</a>
+				<a th:if="${session.loginMember != null}" th:href="@{/member/logout}">로그아웃</a>
 			</div>
 		</div>
 	</footer>
- 
+
 </body>
+
 </html>

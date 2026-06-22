@@ -27,6 +27,7 @@ public class MemberController {
 	// [회원가입 처리] POST /member/join
 	@PostMapping("/join")
 	public String join(MemberDTO memberDTO, Model model) {
+		memberDTO.setMemberLoginId(memberDTO.getMemberLoginId().trim());
 		if(memberService.isLoginIdDuplicated(memberDTO.getMemberLoginId())) {
 			//중복된 아이디가 있는 경우
 			model.addAttribute("error", "duplicate");
@@ -49,7 +50,7 @@ public class MemberController {
 					    @RequestParam("pw") String pw,
 					    HttpSession session, Model model){
 //		DB에서 아이디, 비밀번호 일치여부 확인
-		MemberDTO loginMember = memberService.login(loginId, pw);
+		MemberDTO loginMember = memberService.login(loginId.trim(), pw);
 		
 		if(loginMember == null) {
 //			로그인 실패
@@ -67,6 +68,6 @@ public class MemberController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "board/main";
+		return "redirect:/main";
 	}
 }

@@ -13,6 +13,11 @@ VALUES(#{memberLoginId}, #{memberName}, #{memberEmail}, #{memberPw}, #{memberTel
 SELECT COUNT(*) FROM MEMBER WHERE MEMBER_LOGINID = #{loginId} </select>
 
 <select id="selectByLoginIdAndPwd" resultType="com.example.booklog.dto.MemberDTO"> 
-SELECT MEMBER_ID, MEMBER_LOGINID, MEMBER_NAME, MEMBER_EMAIL, MEMBER_TEL FROM MEMBER 
+SELECT MEMBER_ID AS memberId,
+       MEMBER_LOGINID AS memberLoginId,
+       MEMBER_NAME AS memberName,
+       MEMBER_EMAIL AS memberEmail,
+       MEMBER_TEL AS memberTel
+FROM MEMBER 
 WHERE MEMBER_LOGINID = #{loginId} AND MEMBER_PW = #{pw} </select>
 </mapper>

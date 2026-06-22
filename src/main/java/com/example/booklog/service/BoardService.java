@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.booklog.dto.BoardDTO;
 import com.example.booklog.mapper.BoardMapper;
+import com.example.booklog.mapper.CommentMapper;
 
 @Service
 public class BoardService {
 
 	@Autowired
 	private BoardMapper boardMapper;
+
+	@Autowired
+	private CommentMapper commentMapper;
 
 //   [게시글 목록] offset, size  해당 페이지의 게시글 목록 반환
 //   keyword가 빈 문자열이면 전체 목록, 내용이 있으면 검색 결과 반환
@@ -46,7 +51,9 @@ public class BoardService {
 	}
 
 //[게시글 삭제]
+	@Transactional
 	public void deleteBoard(int boardId) {
+		commentMapper.deleteByBoardId(boardId);
 		boardMapper.deleteBoard(boardId);
 	}
 

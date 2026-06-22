@@ -25,8 +25,8 @@ public class CommentService {
    }
    
 //   [댓글 삭제]
-   public void deleteComment(int commentId) {
-      commentMapper.deleteComment(commentId);
+   public boolean deleteComment(int commentId, int memberId) {
+      return commentMapper.deleteComment(commentId, memberId) > 0;
    }
 
 }

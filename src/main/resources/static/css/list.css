@@ -221,7 +221,7 @@
 }
  
 main{
-    height: 1200px;
+    height: 1000px;
 	padding-bottom: 200px;
 }
 
@@ -229,9 +229,9 @@ main{
     
   max-width: 860px;
   margin: 32px auto;
-  background: #ffffff;
+  background: white;
   border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid white;
   padding: 24px 28px 28px;
   margin-top: 200px;
 }
@@ -310,10 +310,10 @@ td {
   color: #333333;
   padding: 0 12px;
   height: 52px;
-  vertical-align: middle;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/*  vertical-align: middle;
+  white-space: nowrap;*/
+/*  overflow: hidden;
+  text-overflow: ellipsis;*/
 }
 
 .col-no     { width: 56px;  text-align: center; }
@@ -323,8 +323,8 @@ td {
 .col-view   { width: 64px;  text-align: center; }
  
 .td-no     { text-align: center; color: #999999; font-size: 13px; }
-.td-title  { cursor: pointer; }
-.td-title:hover { text-decoration: underline; }
+/*.td-title  { cursor: pointer; }
+.td-title:hover { text-decoration: underline; }*/
 .td-author { font-size: 13px; color: #555555; }
 .td-date   { font-size: 12px; color: #999999; }
 .td-view   { font-size: 13px; color: #999999; text-align: center; }
@@ -388,15 +388,15 @@ a{
     display: block;
     font-size: 12px;
     font-weight: 200;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     margin-bottom: 7px;
     text-decoration: none;
     justify-content: flex-end;
-    transition: transform 0.3s ease;
+   /* transition: transform 0.3s ease;*/
 }
-a:hover{
+/*a:hover{
    transform: scale(1.1); 
-}
+}*/
 .sub-title{
     font-family:serif;
     font-size: 25px;
@@ -425,7 +425,7 @@ a:hover{
 }
 
 .btn-btn-secondary{
-    background-color: rgb(54, 54, 54);
+    background-color: rgb(255, 255, 255);
     color: white;
     border-radius: 8px;
     border: none;

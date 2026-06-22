@@ -28,15 +28,22 @@ public class BoardController {
 	
 	@Autowired
 	private CommentService commentService;
+
+	@GetMapping({ "", "/", "/main" })
+	public String main() {
+		return "board/main";
+	}
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
 
+		keyword = keyword == null ? "" : keyword.trim();
+		if (page < 1) {
+			page = 1;
+		}
 		int size = 10; // 한페이지에 표시할 게시글 수
-		int offset = (page - 1) * size;
 
-		List<BoardDTO> boardList = boardService.getBoardList(offset, size, keyword);
 		int totalCount = boardService.getBoardCount(keyword); // 전체 게시글 수
 
 //      페이지 수 계산
@@ -44,6 +51,11 @@ public class BoardController {
 		if (totalPages == 0) {
 			totalPages = 1;
 		}
+		if (page > totalPages) {
+			page = totalPages;
+		}
+		int offset = (page - 1) * size;
+		List<BoardDTO> boardList = boardService.getBoardList(offset, size, keyword);
 //   
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("currentPage", page);
@@ -91,6 +103,9 @@ public class BoardController {
 //   상세보기를 열때마다 조회수 + 1
 		boardService.incrementHit(boardId);
 		BoardDTO board = boardService.getBoardId(boardId);
+		if (board == null) {
+			return "redirect:/board/list";
+		}
 		model.addAttribute("board", board);
 
 		List<CommentDTO> commentList = commentService.getCommentsByBoardId(boardId);
@@ -116,6 +131,9 @@ public class BoardController {
 		}
 
 		BoardDTO board = boardService.getBoardId(boardId);
+		if (board == null) {
+			return "redirect:/board/list";
+		}
 		if (board.getMemberId() != loginMember.getMemberId()) {
 			return "redirect:/board/detail/" + boardId;
 		}
@@ -135,6 +153,9 @@ public class BoardController {
 		}
 
 		BoardDTO board = boardService.getBoardId(boardId);
+		if (board == null) {
+			return "redirect:/board/list";
+		}
 		if (board.getMemberId() != loginMember.getMemberId()) {
 			return "redirect:/board/detail/" + boardId;
 		}
@@ -158,6 +179,9 @@ public class BoardController {
 
 // 2) 작성자 확인
 		BoardDTO board = boardService.getBoardId(boardId);
+		if (board == null) {
+			return "redirect:/board/list";
+		}
 		if (board.getMemberId() != loginMember.getMemberId()) {
 			return "redirect:/board/detail/" + boardId;
 		}

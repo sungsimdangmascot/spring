@@ -7,12 +7,12 @@
     
    
    <select id="selectByBoardId" resultType="com.example.booklog.dto.CommentDTO">
-      SELECT c.COMMENT_ID,
-            c.COMMENT_CONTENT,
-            DATE_FORMAT(c.COMMENT_REGDATE, '%Y-%m-%d %H:%i:%s') AS COMMENT_REGDATE,
-            c.BOARD_ID,
-            c.MEMBER_ID,
-            m.MEMBER_LOGINID
+      SELECT c.COMMENT_ID AS commentId,
+            c.COMMENT_CONTENT AS commentContent,
+            DATE_FORMAT(c.COMMENT_REGDATE, '%Y-%m-%d %H:%i:%s') AS commentRegDate,
+            c.BOARD_ID AS boardId,
+            c.MEMBER_ID AS memberId,
+            m.MEMBER_LOGINID AS memberLoginId
       FROM COMMENT c 
          JOIN MEMBER m ON c.MEMBER_ID = m.MEMBER_ID 
       WHERE c.BOARD_ID = #{boardId}
@@ -32,6 +32,12 @@
    <delete id="deleteComment">
       DELETE FROM COMMENT 
          WHERE COMMENT_ID = #{commentId}
+           AND MEMBER_ID = #{memberId}
+   </delete>
+
+   <delete id="deleteByBoardId">
+      DELETE FROM COMMENT
+         WHERE BOARD_ID = #{boardId}
    </delete>
 
 
